@@ -20,6 +20,7 @@ import {
   SELECT_FILTER_OPTION,
   AnyFilterAction,
   SET_FILTER_CONFIG_COMPLETE,
+  RESET_ALL_FILTERS,
 } from '../actions/nativeFilters';
 import {
   FilterConfiguration,
@@ -27,13 +28,16 @@ import {
   NativeFiltersState,
 } from '../components/nativeFilters/types';
 
-export function getInitialFilterState(id: string): FilterState {
+export function getInitialFilterState(
+  id: string,
+  defaultValue: any,
+): FilterState {
   return {
     id,
     optionsStatus: 'loading',
     isDirty: false, // TODO set this to true when appropriate
     options: null,
-    selectedValues: null,
+    selectedValues: defaultValue,
   };
 }
 
@@ -46,10 +50,22 @@ export function getInitialState(
   filterConfig.forEach(filter => {
     const { id } = filter;
     filters[id] = filter;
-    filtersState[id] = getInitialFilterState(id);
+    filtersState[id] = getInitialFilterState(id, filter.defaultValue);
   });
   return state;
 }
+
+export const resetFiltersState = (state: NativeFiltersState) =>
+  Object.entries(state.filters).reduce(
+    (acc, [filterId, filterData]) => ({
+      ...acc,
+      [filterId]: {
+        ...state.filtersState[filterId],
+        selectedValues: filterData.defaultValue,
+      },
+    }),
+    {},
+  );
 
 export default function nativeFilterReducer(
   state: NativeFiltersState = { filters: {}, filtersState: {} },
@@ -71,6 +87,12 @@ export default function nativeFilterReducer(
 
     case SET_FILTER_CONFIG_COMPLETE:
       return getInitialState(action.filterConfig);
+
+    case RESET_ALL_FILTERS:
+      return {
+        ...state,
+        filtersState: resetFiltersState(state),
+      };
 
     // TODO handle SET_FILTER_CONFIG_FAIL action
     default:

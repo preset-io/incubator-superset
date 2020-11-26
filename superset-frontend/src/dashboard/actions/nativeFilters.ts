@@ -31,6 +31,11 @@ export interface SetFilterConfigBegin {
   type: typeof SET_FILTER_CONFIG_BEGIN;
   filterConfig: FilterConfiguration;
 }
+
+export const RESET_ALL_FILTERS = 'RESET_ALL_FILTERS';
+export interface ResetAllFilters {
+  type: typeof RESET_ALL_FILTERS;
+}
 export const SET_FILTER_CONFIG_COMPLETE = 'SET_FILTER_CONFIG_COMPLETE';
 export interface SetFilterConfigComplete {
   type: typeof SET_FILTER_CONFIG_COMPLETE;
@@ -109,6 +114,12 @@ export function setFilterState(
     filters,
   };
 }
+
+export function resetAllFilters() {
+  return {
+    type: RESET_ALL_FILTERS,
+  };
+}
 /**
  * Sets the selected option(s) for a given filter
  * @param filterId the id of the native filter
@@ -130,4 +141,5 @@ export type AnyFilterAction =
   | SetFilterConfigComplete
   | SetFilterConfigFail
   | SelectFilterOption
+  | ResetAllFilters
   | SetFilterState;

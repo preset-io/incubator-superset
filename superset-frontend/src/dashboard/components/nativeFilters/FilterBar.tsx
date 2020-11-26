@@ -22,12 +22,14 @@ import cx from 'classnames';
 import { Form, Menu } from 'src/common/components';
 import Button from 'src/components/Button';
 import Icon from 'src/components/Icon';
+import { useDispatch } from 'react-redux';
 import FilterConfigurationLink from './FilterConfigurationLink';
 // import FilterScopeModal from 'src/dashboard/components/filterscope/FilterScopeModal';
 
 import { useFilterConfiguration, useFilterSetter } from './state';
 import { Filter, FilterConfiguration } from './types';
 import { getChartDataRequest } from '../../../chart/chartAction';
+import { resetAllFilters } from '../../actions/nativeFilters';
 
 const barWidth = `250px`;
 
@@ -55,18 +57,14 @@ const Bar = styled.div`
   /* &.animated {
     display: flex;
     transform: translateX(-100%);
-    transition: transform ${({
-    theme,
-  }) => theme.transitionTiming}s;
+    transition: transform ${({ theme }) => theme.transitionTiming}s;
     transition-delay: 0s;
   }  */
   &.open {
     display: flex;
     /* &.animated {
       transform: translateX(0);
-      transition-delay: ${({
-      theme,
-    }) => theme.transitionTiming * 2}s;
+      transition-delay: ${({ theme }) => theme.transitionTiming * 2}s;
     } */
   }
 `;
@@ -83,18 +81,14 @@ const CollapsedBar = styled.div`
   /* &.animated {
     display: block;
     transform: translateX(-100%);
-    transition: transform ${({
-    theme,
-  }) => theme.transitionTiming}s;
+    transition: transform ${({ theme }) => theme.transitionTiming}s;
     transition-delay: 0s;
   } */
   &.open {
     display: block;
     /* &.animated {
       transform: translateX(0);
-      transition-delay: ${({
-      theme,
-    }) => theme.transitionTiming * 3}s;
+      transition-delay: ${({ theme }) => theme.transitionTiming * 3}s;
     } */
   }
   svg {
@@ -248,11 +242,16 @@ const FilterBar: React.FC<FiltersBarProps> = ({
   toggleFiltersBar,
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dispatch = useDispatch();
   const filterConfigs = useFilterConfiguration();
 
   const handleVisibleChange = (flag: boolean) => {
     setDropdownOpen(flag);
     // this.setState({ visible: flag });
+  };
+
+  const handleResetAll = () => {
+    dispatch(resetAllFilters());
   };
 
   return (
@@ -291,7 +290,11 @@ const FilterBar: React.FC<FiltersBarProps> = ({
           <Button buttonStyle="primary" type="submit" buttonSize="sm">
             {t('Apply')}
           </Button>
-          <Button buttonStyle="secondary" buttonSize="sm">
+          <Button
+            buttonStyle="secondary"
+            buttonSize="sm"
+            onClick={handleResetAll}
+          >
             {t('Reset All')}
           </Button>
         </ActionButtons>
