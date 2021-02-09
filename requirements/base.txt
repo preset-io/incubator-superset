@@ -27,7 +27,7 @@ contextlib2==0.6.0.post1  # via apache-superset
 convertdate==2.3.0        # via holidays
 cron-descriptor==1.2.24   # via apache-superset
 croniter==0.3.36          # via apache-superset
-cryptography==3.2.1       # via apache-superset
+cryptography==3.3.2       # via apache-superset
 decorator==4.4.2          # via retry
 defusedxml==0.6.0         # via python3-openid
 dnspython==2.0.0          # via email-validator
