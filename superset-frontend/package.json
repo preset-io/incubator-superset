@@ -117,7 +117,7 @@
     "js-levenshtein": "^1.1.6",
     "json-bigint": "^1.0.0",
     "json-stringify-pretty-compact": "^2.0.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "lodash-es": "^4.17.14",
     "match-sorter": "^6.1.0",
     "mathjs": "^8.0.1",
@@ -171,7 +171,7 @@
     "regenerator-runtime": "^0.13.5",
     "rison": "^0.1.1",
     "shortid": "^2.2.6",
-    "urijs": "^1.19.4",
+    "urijs": "^1.19.6",
     "use-query-params": "^1.1.9"
   },
   "devDependencies": {
