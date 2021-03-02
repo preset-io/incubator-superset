@@ -6,7 +6,7 @@
 #    pip-compile-multi
 #
 -e file:.                 # via -r requirements/base.in
-aiohttp==3.7.2            # via slackclient
+aiohttp==3.7.4            # via slackclient
 alembic==1.4.3            # via flask-migrate
 amqp==2.6.1               # via kombu
 apispec[yaml]==3.3.2      # via flask-appbuilder
