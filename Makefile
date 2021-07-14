@@ -78,3 +78,10 @@ py-format: pre-commit
 
 js-format:
 	cd superset-frontend; npm run prettier
+
+create-test-db:
+	docker-compose -f docker-compose.test.yml up -d postgres
+	docker-compose -f docker-compose.test.yml run postgres "(psql -U superset -d postgres -tc \"SELECT count(*) FROM pg_database WHERE datname = 'test'\" | grep -q 0) && psql -U superset -d postgres -c 'CREATE DATABASE test'"
+
+pytest:
+	docker-compose -f docker-compose.test.yml run superset-tests-with-postgres

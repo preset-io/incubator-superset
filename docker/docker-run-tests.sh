@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -14,33 +16,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-**/__pycache__/
-**/.git
-**/.apache_superset.egg-info
-**/.github
-**/.mypy_cache
-**/.pytest_cache
-**/.tox
-**/.vscode
-**/.idea
-**/.coverage
-**/.DS_Store
-**/.eggs
-**/.python-version
-**/*.egg-info
-**/*.bak
-**/*.db
-**/*.pyc
-**/*.sqllite
-**/*.swp
-**/.terser-plugin-cache/
-**/.storybook/
-**/node_modules/
+set -e
 
-docs/
-install/
-superset-frontend/cypress-base/
-superset-frontend/coverage/
-superset/static/assets/
-superset-websocket/dist/
-venv
+export SUPERSET_CONFIG=${SUPERSET_CONFIG:-tests.superset_test_config}
+export SUPERSET_TESTENV=true
+
+superset db upgrade
+superset init
+
+if [[ "${1}" == "celery" ]]; then
+  echo "Starting Celery worker..."
+  celery "${@:2}"
+elif [[ "${1}" == "pytest" ]]; then
+  echo "Running tests"
+  pytest "${@:2}"
+fi
